@@ -131,7 +131,7 @@ with st.container():
             # Configuração do servidor SMTP usando SSL
             try:
                 server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-                server.login("seu email e senha")
+                server.login("email e senha")
 
                 # Criação da mensagem Multipart
                 msg = MIMEMultipart()
