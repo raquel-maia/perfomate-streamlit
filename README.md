@@ -29,4 +29,4 @@ Esse é um projeto pessoal que eu sempre quis fazer para facilitar a vida dos an
 
 Link do Projeto = https://perfomate.streamlit.app/
 
-![Resultado Final](https://i.postimg.cc/d1v8sWHD/perfo.png)
+![Resultado Final](https://i.postimg.cc/y6QC6q9W/perfor-update.png)
