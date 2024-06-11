@@ -1,10 +1,12 @@
 import streamlit as st
 import plotly.graph_objects as go
-
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 st.set_page_config(page_title="Performate")
 
-st.title("Bem-vindo(a) ao Performate :wave:" )
+st.title("Bem-vindo(a) ao Performate :wave:")
 
 st.subheader("Preencha suas Métricas:")
 col1, col2 = st.columns(2)
@@ -17,7 +19,7 @@ with col1:
     st.header("Cliques:")
     form_cal_cli = st.form(key="Cliques", clear_on_submit=False)
     with form_cal_cli:
-        number_invest_cli = st.number_input("Digite é media de investimento Mensal:", key="invest_cli")
+        number_invest_cli = st.number_input("Digite a média de investimento Mensal:", key="invest_cli")
         number_cpc = st.number_input("Digite o CPC Médio:", key="cpc")
         
         # Botão de envio sempre visível
@@ -33,7 +35,7 @@ with col2:
     st.header("Leads:")
     form_cal_lead = st.form(key="Leads", clear_on_submit=False)
     with form_cal_lead:
-        number_invest_lead = st.number_input("Digite é media de investimento Mensal", key="invest_lead")
+        number_invest_lead = st.number_input("Digite a média de investimento Mensal", key="invest_lead")
         number_cpa = st.number_input("Digite o CPA Médio:", key="cpa")
         
         # Botão de envio sempre visível
@@ -47,9 +49,7 @@ with col2:
             st.session_state['lead_media'] = lead_media
             st.write("A média de número de leads será aproximadamente:", round(lead_media))
 
-
 with st.container():
-    
     # Verifica se ambos os resultados foram calculados
     if resultado is not None and lead_media is not None:
         st.header("Análise final")
@@ -68,9 +68,7 @@ with st.container():
 
         st.write("Independentemente do resultado, essa análise fornece insights valiosos para otimizar sua estratégia de marketing e alcançar seus objetivos comerciais.")
 
-        
-
-# Gráficos interativos com Plotly
+        # Gráficos interativos com Plotly
         fig = go.Figure()
 
         # Gráfico de investimento
@@ -84,7 +82,7 @@ with st.container():
         # Gráfico de cliques
         fig.add_trace(go.Bar(
             x=['Diário', 'Mensal'],
-            y=[round(cliques_diario),resultado],
+            y=[round(cliques_diario), resultado],
             name='Cliques',
             marker_color='lightsalmon'
         ))
@@ -111,5 +109,48 @@ with st.container():
         )
 
         st.plotly_chart(fig)
+
+        # Adiciona input para email e botão de envio
+        email = st.text_input("Digite o email do destinatário:")
+        send_email = st.button("Enviar Análise por Email")
+
+        if send_email and email:
+            # Criação do corpo do email em formato HTML
+            html_content = f"""
+            <html>
+            <body>
+                <h2>Análise de Desempenho</h2>
+                <p>Com um investimento de R$ {number_invest_cli:.2f}, você poderá alcançar uma média mensal de {round(resultado)} cliques, impulsionando sua presença online de forma significativa. Além disso, essa estratégia pode gerar uma média mensal de aproximadamente {round(lead_media)} leads valiosos para o seu negócio.</p>
+                <p>E se desdobrarmos esses números para um investimento diário, você terá um orçamento diário de aproximadamente R$ {investimento_diario:.2f}, o que resultará em uma média de {round(cliques_diario)} cliques diários e, consequentemente, cerca de {round(leads_diario)} novos leads diariamente.</p>
+                <p>A taxa de conversão, de cliques para leads, é de {taxa_conversao_porcent}%.</p>
+                <p>Independentemente do resultado, essa análise fornece insights valiosos para otimizar sua estratégia de marketing e alcançar seus objetivos comerciais.</p>
+            </body>
+            </html>
+            """
+
+            # Configuração do servidor SMTP usando SSL
+            try:
+                server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+                server.login("seu email e senha")
+
+                # Criação da mensagem Multipart
+                msg = MIMEMultipart()
+                msg['From'] = "teste@gmail.com"
+                msg['To'] = email
+                msg['Subject'] = "Análise de Desempenho"
+
+                # Adiciona o corpo do email em formato HTML
+                msg.attach(MIMEText(html_content, 'html', _charset='utf-8'))
+
+                # Envie o email
+                server.send_message(msg)
+
+                # Encerre a conexão com o servidor SMTP
+                server.quit()
+                st.success('Email enviado com sucesso!')
+            except Exception as e:
+                st.error(f"Falha ao enviar email: {e}")
+
+# Adiciona o CSS
 with open("style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
