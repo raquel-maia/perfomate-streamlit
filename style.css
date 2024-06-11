@@ -1,0 +1,22 @@
+/* Definindo cores padrão */
+:root {
+    --cor-primaria: #102C57;
+    --cor-secundaria: #1679AB;
+    --cor-hover:#E88D67;
+}
+
+  /* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--cor-primaria);
+    color: var(--cor-secundaria);
+}
+
+
+.st-emotion-cache-7ym5gk.ef3psqc7:hover {
+    background-color: var(--cor-hover);
+    color:aliceblue;
+    border-color: #102C57;
+    
+}
+

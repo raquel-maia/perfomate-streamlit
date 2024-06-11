@@ -1,9 +1,12 @@
 import streamlit as st
 import plotly.graph_objects as go
 
+
 st.set_page_config(page_title="Performate")
 
-st.title("Preencha suas Métricas:")
+st.title("Bem-vindo(a) ao Performate :wave:" )
+
+st.subheader("Preencha suas Métricas:")
 col1, col2 = st.columns(2)
 
 # Inicializa as variáveis fora do escopo dos formulários
@@ -108,3 +111,5 @@ with st.container():
         )
 
         st.plotly_chart(fig)
+with open("style.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
