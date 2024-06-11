@@ -26,4 +26,6 @@ Esse é um projeto pessoal que eu sempre quis fazer para facilitar a vida dos an
 - **Visualização**: Gera gráficos interativos mostrando o investimento, cliques e leads tanto em bases diárias quanto mensais.
 - **Envio por Email**: Permite enviar a análise de texto completa por email para facilitar o compartilhamento de resultados. ( o Grafico ainda não foi configurado para envio )
 
+![Resultado Final](https://i.postimg.cc/d1v8sWHD/perfo.png)
+
 
