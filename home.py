@@ -3,6 +3,7 @@ import plotly.graph_objects as go
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import plotly.graph_objects as go
 
 st.set_page_config(page_title="Performate")
 
@@ -132,7 +133,7 @@ with st.container():
             try:
                 server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
                 server.login("varishopping123@gmail.com",st.write(st.secrets["MYPASS"]))
-                
+
                 # Criação da mensagem Multipart
                 msg = MIMEMultipart()
                 msg['From'] = "teste@gmail.com"
