@@ -10,17 +10,21 @@ st.set_page_config(page_title="Performate")
 st.title("Bem-vindo(a) ao Performate :wave:")
 
 st.subheader("Preencha suas Métricas:")
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 
 # Inicializa as variáveis fora do escopo dos formulários
 resultado = st.session_state.get('resultado', None)
 lead_media = st.session_state.get('lead_media', None)
+investimento = st.session_state.get('investimento', None)
 
 with col1:
+    st.header("Investimento:")
+    number_invest_cli = st.number_input("Digite a investimento Mensal:", key="invest_cli")
+
+with col2:
     st.header("Cliques:")
     form_cal_cli = st.form(key="Cliques", clear_on_submit=False)
     with form_cal_cli:
-        number_invest_cli = st.number_input("Digite a média de investimento Mensal:", key="invest_cli")
         number_cpc = st.number_input("Digite o CPC Médio:", key="cpc")
         
         # Botão de envio sempre visível
@@ -32,23 +36,22 @@ with col1:
             st.session_state['resultado'] = resultado
             st.write("O seu número de cliques será aproximadamente:", round(resultado))
 
-with col2:
+with col3:
     st.header("Leads:")
     form_cal_lead = st.form(key="Leads", clear_on_submit=False)
     with form_cal_lead:
-        number_invest_lead = st.number_input("Digite a média de investimento Mensal", key="invest_lead")
         number_cpa = st.number_input("Digite o CPA Médio:", key="cpa")
         
         # Botão de envio sempre visível
         button_click_lead = st.form_submit_button('Veja o resultado')
         
         # Calcula o resultado apenas se os campos estiverem preenchidos
-        if button_click_lead and number_invest_lead > 0 and number_cpa > 0:
-            resultado_lead = number_invest_lead / number_cpa
+        if button_click_lead and number_invest_cli  > 0 and number_cpa > 0:
+            resultado_lead = number_invest_cli  / number_cpa
             resultado_lead_esp = resultado_lead * 0.01
             lead_media = (resultado_lead_esp + resultado_lead) / 2
             st.session_state['lead_media'] = lead_media
-            st.write("A média de número de leads será aproximadamente:", round(lead_media))
+            st.write("A média de número de leads será aproximadamente:", round(lead_media))           
 
 with st.container():
     # Verifica se ambos os resultados foram calculados
